@@ -113,13 +113,6 @@ function App() {
   };
 
     async function handleLogOut() {
-        setErrorMessage(''); // fresh error message each time
-        const body = {
-          fromId: userName,
-          toId: toId,
-          message: message,
-        };
-
       // Send a POST request to the /logout endpoint
       const httpSettings = {
         method: 'POST',
@@ -128,7 +121,9 @@ function App() {
         }
       };
 
-     const result = await fetch('/logout', httpSettings);
+     await fetch('/logout', httpSettings);
+     // Remove the 'auth' cookie
+     cookies.remove('auth');
      setIsLoggedIn(false);
     }
 
