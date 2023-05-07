@@ -28,4 +28,5 @@ public class AuthFilter {
     result.userName = authRes.get(0).getUserName();
     return result;
   }
+
 }

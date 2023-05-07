@@ -112,6 +112,26 @@ function App() {
     setIsLoading(false);
   };
 
+    async function handleLogOut() {
+        setErrorMessage(''); // fresh error message each time
+        const body = {
+          fromId: userName,
+          toId: toId,
+          message: message,
+        };
+
+      // Send a POST request to the /logout endpoint
+      const httpSettings = {
+        method: 'POST',
+        headers: {
+            auth: cookies.get('auth') // utility to retrive cookie from cookies
+        }
+      };
+
+     const result = await fetch('/logout', httpSettings);
+     setIsLoggedIn(false);
+    }
+
   if (isLoggedIn) {
     return (
       <div className="App">
@@ -122,6 +142,9 @@ function App() {
         <textarea value={message} onChange={e => setMessage(e.target.value)} />
         <div>
           <button onClick={handleSendMessage}>Send Message</button>
+        </div>
+        <div>
+            <button onClick={handleLogOut}>Log out</button>
         </div>
         <div>{errorMessage}</div>
         <div>{conversations.map(conversation => <div>Convo: {conversation.conversationId}</div>)}</div>

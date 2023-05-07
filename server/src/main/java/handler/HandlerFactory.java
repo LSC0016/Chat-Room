@@ -16,6 +16,8 @@ public class HandlerFactory {
         return new GetConversationHandler();
       case "/createMessage":
         return new CreateMessageHandler();
+      case "/logout":
+        return new LogoutHandler();
       default:
         return new FallbackHandler();
     }
