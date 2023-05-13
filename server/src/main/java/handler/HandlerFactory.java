@@ -18,6 +18,10 @@ public class HandlerFactory {
         return new CreateMessageHandler();
       case "/logout":
         return new LogoutHandler();
+      case "/registration":
+        return new RegistrationHandler();
+      case "addFriend":
+        return new AddFriendHandler();
       default:
         return new FallbackHandler();
     }

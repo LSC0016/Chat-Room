@@ -28,6 +28,12 @@ public class UserDao extends BaseDao<UserDto> {
     return instance;
   }
 
+  public void update(UserDto userDto) {
+    Document filter = new Document().append("userName", userDto.getUserName());
+    Document update = new Document().append("$set", userDto.toDocument());
+    collection.updateOne(filter, update);
+  }
+
   @Override
   public void put(UserDto messageDto) {
     collection.insertOne(messageDto.toDocument());

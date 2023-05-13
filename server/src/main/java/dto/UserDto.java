@@ -2,10 +2,13 @@ package dto;
 
 import org.bson.Document;
 
+import java.util.List;
+
 public class UserDto extends BaseDto{
 
   private String userName;
   private String password;
+  private List<String> friends;
 
   public UserDto() {
     super();
@@ -23,6 +26,10 @@ public class UserDto extends BaseDto{
     return userName;
   }
 
+  public List<String> getFriends() {
+    return friends;
+  }
+
   public void setUserName(String userName) {
     this.userName = userName;
   }
@@ -31,10 +38,15 @@ public class UserDto extends BaseDto{
     this.password = password;
   }
 
+  public void setFriends(List<String> friends) {
+    this.friends = friends;
+  }
+
   public Document toDocument(){
     return new Document()
         .append("userName", userName)
-        .append("password", password);
+        .append("password", password)
+            .append("friends", friends);
   }
 
   public static UserDto fromDocument(Document match) {
