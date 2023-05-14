@@ -16,5 +16,9 @@ public abstract class BaseDao<T extends BaseDto> {
   abstract void put(T t);
 
   abstract List<T> query(Document filter);
+  public void delete(String uniqueId) {
+    var filter = new Document("uniqueId", uniqueId);
+    collection.deleteOne(filter);
+  }
 
 }

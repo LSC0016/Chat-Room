@@ -16,6 +16,10 @@ public class HandlerFactory {
         return new GetConversationHandler();
       case "/createMessage":
         return new CreateMessageHandler();
+      case "/blockUser":
+        return new BlockUserHandler();
+      case "/unregUser":
+        return new UnregUserHandler();
       default:
         return new FallbackHandler();
     }

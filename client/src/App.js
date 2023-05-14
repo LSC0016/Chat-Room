@@ -10,7 +10,8 @@ function App() {
   const [isLoading, setIsLoading] = React.useState(false);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState('');
-
+  const [blockedPerson, setBlockedPerson] = React.useState('');
+  const [confirmUsername, setConfirmUsername] = React.useState(false);
   // new state variables for chat box
   const [toId, setToId] = React.useState('');
   const [message, setMessage] = React.useState('');
@@ -84,6 +85,65 @@ function App() {
     setIsLoading(false);
   };
 
+
+
+  async function handleBlockPerson() {
+    setIsLoading(true);
+    setErrorMessage(''); // fresh error message each time
+    const body = {
+      fromId: userName,
+      blockedId: blockedPerson,
+    };
+    const httpSettings = {
+      body: JSON.stringify(body),
+      method: 'POST',
+      headers: {
+        auth: cookies.get('auth'),
+      }
+    };
+    const result = await fetch('/blockUser', httpSettings);
+    const apiRes = await result.json();
+    console.log(apiRes);
+    if (apiRes.status) {
+      setBlockedPerson('');
+      getConversations();
+    } else {
+      setErrorMessage(apiRes.message);
+    }
+    setIsLoading(false);
+  }
+
+  async function handleUnregUser() {
+    setIsLoading(true);
+    setErrorMessage('');
+    if (confirmUsername !== userName) {
+      setErrorMessage('Wrong username');
+      setIsLoading(false);
+      return;
+    }
+    const body = {
+      username: userName,
+    };
+    const httpSettings = {
+      body: JSON.stringify(body),
+      method: 'POST',
+      headers: {
+        auth: cookies.get('auth'),
+      },
+    };
+    const result = await fetch('/unregUser', httpSettings);
+    const apiRes = await result.json();
+    console.log(apiRes);
+    if (apiRes.status) {
+      setIsLoggedIn(false);
+    } else {
+      setErrorMessage(apiRes.message);
+    }
+    setIsLoading(false);
+  }
+
+
+
   async function handleSendMessage() {
     setIsLoading(true);
     setErrorMessage(''); // fresh error message each time
@@ -119,12 +179,23 @@ function App() {
         <div>
           To: <input value={toId} onChange={e => setToId(e.target.value)} />
         </div>
+        
         <textarea value={message} onChange={e => setMessage(e.target.value)} />
         <div>
           <button onClick={handleSendMessage}>Send Message</button>
         </div>
+        <div>
+        Block person: <input value={blockedPerson} onChange={e => setBlockedPerson(e.target.value)} />
+        <button onClick={handleBlockPerson}>Confirm</button>
+        </div>
         <div>{errorMessage}</div>
         <div>{conversations.map(conversation => <div>Convo: {conversation.conversationId}</div>)}</div>
+        <div>
+          Confirm Username:
+          <input value={confirmUsername} onChange={e => setConfirmUsername(e.target.value)} />
+          <button onClick={handleUnregUser}>Confirm Unregister</button>
+          {errorMessage && <div>{errorMessage}</div>}
+        </div>
       </div>
     );
   }

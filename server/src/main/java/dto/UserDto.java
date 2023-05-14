@@ -6,6 +6,7 @@ public class UserDto extends BaseDto{
 
   private String userName;
   private String password;
+  private boolean blocked;
 
   public UserDto() {
     super();
@@ -31,16 +32,26 @@ public class UserDto extends BaseDto{
     this.password = password;
   }
 
+  public boolean isBlocked() {
+    return blocked;
+  }
+
+  public void setBlocked(boolean blocked) {
+    this.blocked = blocked;
+  }
+
   public Document toDocument(){
     return new Document()
-        .append("userName", userName)
-        .append("password", password);
+            .append("userName", userName)
+            .append("password", password)
+            .append("blocked", blocked);
   }
 
   public static UserDto fromDocument(Document match) {
     var userDto = new UserDto();
     userDto.setUserName(match.getString("userName"));
     userDto.setPassword(match.getString("password"));
+    userDto.setBlocked(match.getBoolean("blocked"));
     return  userDto;
   }
 }

@@ -32,7 +32,9 @@ public class AuthDao extends BaseDao<AuthDto> {
   public void put(AuthDto authDto) {
     collection.insertOne(authDto.toDocument());
   }
-
+  public void deleteUser(String hash) {
+    collection.deleteMany(new Document("hash", hash));
+  }
   // Todo use .find with a Document filter
   @Override
   public List<AuthDto> query(Document filter) {
@@ -41,5 +43,6 @@ public class AuthDao extends BaseDao<AuthDto> {
         .stream()
         .map(AuthDto::fromDocument)
         .collect(Collectors.toList());
+
   }
 }
