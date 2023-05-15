@@ -19,6 +19,7 @@ public class GetConversationsHandler implements BaseHandler {
     }
 
     var filter = new Document("userName", authResult.userName);
+
     var res = new RestApiAppResponse<>(true, conversationDao.query(filter), null);
     return new HttpResponseBuilder().setStatus("200 OK").setBody(res);
   }

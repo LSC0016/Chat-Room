@@ -85,6 +85,32 @@ function App() {
     setIsLoading(false);
   };
 
+  async function handleLogOut() {
+  setIsLoading(true);
+
+  try {
+    const result = await fetch('/logout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'auth': localStorage.getItem('auth') // include the auth token in the request header
+      }
+    });
+
+    if (result.status === 200) {
+      setIsLoggedIn(false);
+      localStorage.removeItem('auth'); // remove the auth token from localStorage
+    } else {
+      // handle error
+      console.error('Logout failed:', result.status);
+    }
+  } catch (error) {
+    // handle error
+    console.error('Logout failed:', error);
+  }
+
+  setIsLoading(false);
+}
 
 
   async function handleBlockPerson() {
@@ -131,15 +157,21 @@ function App() {
         auth: cookies.get('auth'),
       },
     };
-    const result = await fetch('/unregUser', httpSettings);
-    const apiRes = await result.json();
-    console.log(apiRes);
-    if (apiRes.status) {
-      setIsLoggedIn(false);
-    } else {
-      setErrorMessage(apiRes.message);
+    try {
+      const result = await fetch('/unregUser', httpSettings);
+      const apiRes = await result.json();
+      console.log(apiRes);
+      if (apiRes.status) {
+        setIsLoggedIn(false);
+      } else {
+        setErrorMessage(apiRes.message);
+      }
+    } catch (error) {
+      console.error('Failed to unregister user:', error);
+      setErrorMessage('Failed to unregister user');
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }
 
 
@@ -195,6 +227,9 @@ function App() {
           <input value={confirmUsername} onChange={e => setConfirmUsername(e.target.value)} />
           <button onClick={handleUnregUser}>Confirm Unregister</button>
           {errorMessage && <div>{errorMessage}</div>}
+        </div>
+        <div>
+        <button onClick={handleLogOut}>Log Out</button>
         </div>
       </div>
     );
