@@ -40,11 +40,23 @@ public class UserDao extends BaseDao<UserDto> {
   }
 
   public List<UserDto> query(Document filter){
+    filter.append("blocked", false); // only retrieve users that are not blocked
     return collection.find(filter)
         .into(new ArrayList<>())
         .stream()
         .map(UserDto::fromDocument)
         .collect(Collectors.toList());
   }
-
+  public void delete(Document filter) {
+    List<UserDto> users = query(filter);
+    if (users.size() > 0) {
+      UserDto user = users.get(0);
+      super.delete(user.getUniqueId());
+    }
+  }
+  public void blockUser(String userName) {
+    Document filter = new Document("userName", userName);
+    Document update = new Document("$set", new Document("blocked", true));
+    collection.updateOne(filter, update);
+  }
 }
