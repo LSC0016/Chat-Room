@@ -1,17 +1,11 @@
 package handler;
 
-<<<<<<< HEAD
-import request.ParsedRequest;
-import response.HttpResponseBuilder;
 
-
-=======
 import dao.AuthDao;
 import dao.UserDao;
 import request.ParsedRequest;
 import response.HttpResponseBuilder;
 
->>>>>>> 7e7c0745d169ebaa5c26851842606ea2d3c5c2e3
 public class BlockUserHandler implements BaseHandler {
 
     @Override

@@ -28,9 +28,6 @@ public class AuthDao extends BaseDao<AuthDto> {
     return instance;
   }
 
-  public void deleteUser(String hash) {
-    collection.deleteMany(new Document("hash", hash));
-  }
 
   @Override
   public void put(AuthDto authDto) {
