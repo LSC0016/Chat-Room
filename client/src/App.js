@@ -12,8 +12,7 @@ function App() {
   const [errorMessage, setErrorMessage] = React.useState('');
   const [blockedPerson, setBlockedPerson] = React.useState('');
   const [confirmUsername, setConfirmUsername] = React.useState(false);
-  const [friendId, setFriendId] = React.useState('');
-
+  const [friendUserName, setFriendUserName] = React.useState('');
 
   // new state variables for chat box
   const [toId, setToId] = React.useState('');
@@ -89,94 +88,38 @@ function App() {
   };
 
   async function handleLogOut() {
-
     setIsLoading(true);
   
-    try {
-      const httpSettings = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'auth': cookies.get('auth') // include the auth token in the request header
-        }
-      };
+    // Check if the 'auth' cookie exists
+    if (cookies.get('auth')) {
+      try {
+        const httpSettings = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'auth': cookies.get('auth') // include the auth token in the request header
+          }
+        };
   
-      const result = await fetch('/logout', httpSettings);
-      if (result.status === 200) {
-        setIsLoggedIn(false);
-        cookies.remove('auth'); // remove the auth token from cookies
-      } else {
+        const result = await fetch('/logout', httpSettings);
+        if (result.status === 200) {
+          setIsLoggedIn(false);
+          cookies.remove('auth'); // remove the auth token from cookies
+        } else {
+          // handle error
+          console.error('Logout failed:', result.status);
+        }
+      } catch (error) {
         // handle error
-        console.error('Logout failed:', result.status);
+        console.error('Logout failed:', error);
       }
-    } catch (error) {
-      // handle error
-      console.error('Logout failed:', error);
+    } else {
+      // 'auth' cookie doesn't exist, handle the case when the user is already logged out
+      console.log('User is already logged out');
     }
   
     setIsLoading(false);
   }
-  
-
-async function handleBlockPerson() {
-  setIsLoading(true);
-  setErrorMessage(''); // fresh error message each time
-  const body = {
-      fromId: userName,
-      blockedId: blockedPerson,
-  };
-  const httpSettings = {
-      body: JSON.stringify(body),
-      method: 'POST',
-      headers: {
-          auth: cookies.get('auth'),
-      }
-  };
-  try {
-      const result = await fetch('/blockUser', httpSettings);
-      const apiRes = await result.json();
-      console.log(apiRes);
-      if (apiRes.status) {
-          setBlockedPerson('');
-          getConversations();
-      } else {
-          setErrorMessage(apiRes.message);
-      }
-  } catch (error) {
-      console.error('Block person failed:', error);
-      setErrorMessage('Block person failed. Please try again later.');
-  }
-  setIsLoading(false);
-}
-
-
-  async function handleUnregUser() {   //Unreg
-=======
-  setIsLoading(true);
-
-  try {
-    const result = await fetch('/logout', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'auth': localStorage.getItem('auth') // include the auth token in the request header
-      }
-    });
-
-    if (result.status === 200) {
-      setIsLoggedIn(false);
-      localStorage.removeItem('auth'); // remove the auth token from localStorage
-    } else {
-      // handle error
-      console.error('Logout failed:', result.status);
-    }
-  } catch (error) {
-    // handle error
-    console.error('Logout failed:', error);
-  }
-
-  setIsLoading(false);
-}
 
 
   async function handleBlockPerson() {
@@ -206,7 +149,6 @@ async function handleBlockPerson() {
   }
 
   async function handleUnregUser() {
-
     setIsLoading(true);
     setErrorMessage('');
     if (confirmUsername !== userName) {
@@ -241,34 +183,37 @@ async function handleBlockPerson() {
     }
   }
 
-
-  async function handleAddFriend() {    //add friend
+  async function handleAddFriend() {
     setIsLoading(true);
     setErrorMessage('');
     const body = {
-      fromId: userName,
-      toId: friendId,
+      userName: userName,
+      friendUserName: friendUserName,
     };
     const httpSettings = {
       body: JSON.stringify(body),
       method: 'POST',
       headers: {
         auth: cookies.get('auth'),
-        'Content-Type': 'application/json',
-      },
+      }
     };
-    const result = await fetch('/addFriend', httpSettings);
-    const apiRes = await result.json();
-    console.log(apiRes);
-    if (apiRes.status) {
-      setFriendId('');
-      getConversations();
-    } else {
-      setErrorMessage(apiRes.message);
+    try {
+      const result = await fetch('/addFriend', httpSettings);
+      const apiRes = await result.json();
+      console.log(apiRes);
+      if (apiRes.status) {
+        // Friend added successfully
+        // Handle success case, if needed
+      } else {
+        setErrorMessage(apiRes.message);
+      }
+    } catch (error) {
+      console.error('Failed to add friend:', error);
+      setErrorMessage('Failed to add friend');
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }
-
 
   async function handleSendMessage() {
     setIsLoading(true);
@@ -311,12 +256,11 @@ async function handleBlockPerson() {
           <button onClick={handleSendMessage}>Send Message</button>
         </div>
         <div>
-
-        Enter name: <input value={friendId} onChange={e => setFriendId(e.target.value)} />
-        <button onClick={handleAddFriend}>Confirm</button>
-        </div>
+        Add Friend: 
+        <input value={friendUserName} onChange={e => setFriendUserName(e.target.value)} />
+        <button onClick={handleAddFriend}>Add</button>
+      </div>
         <div>
-
         Block person: <input value={blockedPerson} onChange={e => setBlockedPerson(e.target.value)} />
         <button onClick={handleBlockPerson}>Confirm</button>
         </div>

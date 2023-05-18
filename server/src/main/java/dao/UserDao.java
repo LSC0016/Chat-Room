@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 public class UserDao extends BaseDao<UserDto> {
 
@@ -28,25 +29,28 @@ public class UserDao extends BaseDao<UserDto> {
     return instance;
   }
 
+  public UserDto getUserById(String userId) {
+    Document filter = new Document().append("_id", new ObjectId(userId));
+    Document userDocument = collection.find(filter).first();
+    return userDocument != null ? UserDto.fromDocument(userDocument) : null;
+  }
+
   public void update(UserDto userDto) {
     Document filter = new Document().append("userName", userDto.getUserName());
     Document update = new Document().append("$set", userDto.toDocument());
     collection.updateOne(filter, update);
   }
 
-  @Override
-  public void put(UserDto messageDto) {
-    collection.insertOne(messageDto.toDocument());
+  public void blockUser(String userId, String blockedUserId) {
+    UserDto user = getUserById(userId);
+    if (user != null) {
+      user.getBlockedUsers().add(blockedUserId);
+      update(user);
+    }
   }
 
-  public List<UserDto> query(Document filter){
-    filter.append("blocked", false); // only retrieve users that are not blocked
-    return collection.find(filter)
-        .into(new ArrayList<>())
-        .stream()
-        .map(UserDto::fromDocument)
-        .collect(Collectors.toList());
-  }
+
+
   public void delete(Document filter) {
     List<UserDto> users = query(filter);
     if (users.size() > 0) {
@@ -54,10 +58,17 @@ public class UserDao extends BaseDao<UserDto> {
       super.delete(user.getUniqueId());
     }
   }
-
-  public void blockUser(String userName) {
-    Document filter = new Document("userName", userName);
-    Document update = new Document("$set", new Document("blocked", true));
-    collection.updateOne(filter, update);
+  @Override
+  public void put(UserDto messageDto) {
+    collection.insertOne(messageDto.toDocument());
   }
+
+  public List<UserDto> query(Document filter){
+    return collection.find(filter)
+            .into(new ArrayList<>())
+            .stream()
+            .map(UserDto::fromDocument)
+            .collect(Collectors.toList());
+  }
+
 }
