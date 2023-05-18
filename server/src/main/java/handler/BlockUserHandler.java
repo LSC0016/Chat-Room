@@ -6,10 +6,12 @@ import dao.UserDao;
 import request.ParsedRequest;
 import response.HttpResponseBuilder;
 
+
 public class BlockUserHandler implements BaseHandler {
 
     @Override
     public HttpResponseBuilder handleRequest(ParsedRequest request) {
+
         var res = new HttpResponseBuilder();
         UserDao userDao = UserDao.getInstance();
         AuthDao authDao = AuthDao.getInstance();
@@ -27,3 +29,4 @@ public class BlockUserHandler implements BaseHandler {
         return res;
     }
 }
+

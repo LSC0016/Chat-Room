@@ -26,6 +26,10 @@ public class HandlerFactory {
         return new RegistrationHandler();
       case "/addFriend":
         return new AddFriendHandler();
+      case "/blockUser":
+        return new BlockUserHandler();
+      case "/unregUser":
+        return new UnregUserHandler();
       default:
         return new FallbackHandler();
     }

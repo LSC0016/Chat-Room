@@ -54,6 +54,7 @@ public class UserDao extends BaseDao<UserDto> {
       super.delete(user.getUniqueId());
     }
   }
+
   public void blockUser(String userName) {
     Document filter = new Document("userName", userName);
     Document update = new Document("$set", new Document("blocked", true));

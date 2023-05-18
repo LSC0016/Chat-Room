@@ -29,6 +29,7 @@ public class AuthDao extends BaseDao<AuthDto> {
   }
 
 
+
   @Override
   public void put(AuthDto authDto) {
     collection.insertOne(authDto.toDocument());
