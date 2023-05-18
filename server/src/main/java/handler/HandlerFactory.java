@@ -16,11 +16,15 @@ public class HandlerFactory {
         return new GetConversationHandler();
       case "/createMessage":
         return new CreateMessageHandler();
+      case "/blockUser":
+        return new BlockUserHandler();
+      case "/unregUser":
+        return new UnregUserHandler();
       case "/logout":
         return new LogoutHandler();
       case "/registration":
         return new RegistrationHandler();
-      case "addFriend":
+      case "/addFriend":
         return new AddFriendHandler();
       case "/blockUser":
         return new BlockUserHandler();

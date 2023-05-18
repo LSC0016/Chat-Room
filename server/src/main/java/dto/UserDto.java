@@ -8,6 +8,9 @@ public class UserDto extends BaseDto{
 
   private String userName;
   private String password;
+
+  private boolean blocked;
+
   private List<String> friends;
 
   private boolean blocked;
@@ -41,6 +44,13 @@ public class UserDto extends BaseDto{
     this.password = password;
   }
 
+  public boolean isBlocked() {
+    return blocked;
+  }
+
+  public void setBlocked(boolean blocked) {
+    this.blocked = blocked;
+  }
   public void setFriends(List<String> friends) {
     this.friends = friends;
   }
@@ -54,11 +64,11 @@ public class UserDto extends BaseDto{
 
   public Document toDocument(){
     return new Document()
+            .append("userName", userName)
+            .append("password", password)
+            .append("blocked", blocked)
+            .append("friends", friends);
 
-        .append("userName", userName)
-        .append("password", password)
-            .append("friends", friends)
-            .append("blocked", blocked);
   }
 
   public static UserDto fromDocument(Document match) {
