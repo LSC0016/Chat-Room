@@ -294,7 +294,7 @@ function App() {
         </div>
         
         <div>
-        <button onClick={handleLogOut}>Log Out</button>
+        <button class="logoutButton" onClick={handleLogOut}>Log Out</button>
         </div>
       </div>
     );
