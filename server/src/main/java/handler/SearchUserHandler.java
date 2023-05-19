@@ -9,6 +9,9 @@ import response.RestApiAppResponse;
 
 public class SearchUserHandler implements BaseHandler {
      @Override
+
+     
+     //gets users
         public HttpResponseBuilder handleRequest(ParsedRequest request) {
     
             // gets username 

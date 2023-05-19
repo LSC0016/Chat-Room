@@ -39,6 +39,26 @@ function App() {
     }
   }
 
+  /*  // get list of users in the database 
+   async function getUsers() {
+    const httpSettings = {
+      method: 'GET',
+      headers: {
+        auth: cookies.get('auth'), // utility to retrive cookie from cookies
+      }
+    };
+    const result = await fetch('/getConversations', httpSettings);
+    const apiRes = await result.json();
+    console.log(apiRes);
+    if (apiRes.status) {
+      // worked
+      setConversations(apiRes.data); // java side should return list of all convos for this user
+    } else {
+      setErrorMessage(apiRes.message);
+    }
+  }
+  */
+
   async function handleSubmit() {
     setIsLoading(true);
     setErrorMessage(''); // fresh error message each time
@@ -265,12 +285,16 @@ function App() {
         <button class="endpointButton block"onClick={handleBlockPerson}>Confirm</button>
         </div>
         <div>{errorMessage}</div>
-       <details class="conversationBox">
-            <summary>Recent Conversations</summary>
-            <div>{conversations.map(conversation => <div>Convo: {conversation.conversationId}</div>)}</div>
-        </details>
-        <div class="logoutCorner">
-        <button class="logoutButton" onClick={handleLogOut}>Log Out</button>
+        <div>{conversations.map(conversation => <div>Convo: {conversation.conversationId}</div>)}</div>
+        <div>
+          Confirm Username:
+          <input value={confirmUsername} onChange={e => setConfirmUsername(e.target.value)} />
+          <button onClick={handleUnregUser}>Confirm Unregister</button>
+          {errorMessage && <div>{errorMessage}</div>}
+        </div>
+        
+        <div>
+        <button onClick={handleLogOut}>Log Out</button>
         </div>
       </div>
     );
