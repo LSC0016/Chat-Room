@@ -245,46 +245,54 @@ function App() {
 
   if (isLoggedIn) {
     return (
-      <div className="App">
-        <h1>Welcome {userName}</h1>
+      <div className="App" class="profileContain">
+        <h1 class="profileTitle">Welcome {userName}</h1>
         <div>
           To: <input value={toId} onChange={e => setToId(e.target.value)} />
         </div>
         
         <textarea value={message} onChange={e => setMessage(e.target.value)} />
         <div>
-          <button onClick={handleSendMessage}>Send Message</button>
+          <button class="LoginButton send" onClick={handleSendMessage}>Send Message</button>
         </div>
-        <div>
+        <div class="addUser">
         Add Friend: 
-        <input value={friendUserName} onChange={e => setFriendUserName(e.target.value)} />
-        <button onClick={handleAddFriend}>Add</button>
-      </div>
-        <div>
+        <input class="addBox addTop" value={friendUserName} onChange={e => setFriendUserName(e.target.value)} />
+        <button class="endpointButton profileAdd" onClick={handleAddFriend}>Add</button>
+        </div>
+        <div class="blockUser">
         Block person: <input value={blockedPerson} onChange={e => setBlockedPerson(e.target.value)} />
-        <button onClick={handleBlockPerson}>Confirm</button>
+        <button class="endpointButton block"onClick={handleBlockPerson}>Confirm</button>
         </div>
         <div>{errorMessage}</div>
-        <div>{conversations.map(conversation => <div>Convo: {conversation.conversationId}</div>)}</div>
-        <div>
-          Confirm Username:
-          <input value={confirmUsername} onChange={e => setConfirmUsername(e.target.value)} />
-          <button onClick={handleUnregUser}>Confirm Unregister</button>
-          {errorMessage && <div>{errorMessage}</div>}
-        </div>
-        <div>
-        <button onClick={handleLogOut}>Log Out</button>
+       <details class="conversationBox">
+            <summary>Recent Conversations</summary>
+            <div>{conversations.map(conversation => <div>Convo: {conversation.conversationId}</div>)}</div>
+        </details>
+        <div class="logoutCorner">
+        <button class="logoutButton" onClick={handleLogOut}>Log Out</button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="App">
+    <div className="App" class="Contain">
+      <h3 class="loginTitle">Login Here</h3>
+
+      <div class="formGroup">
+      <label class="userLabel">Username </label>
       <input value={userName} onChange={e => setUserName(e.target.value)} />
-      <input value={password} onChange={e => setPassword(e.target.value)} type="password" />
-      <button onClick={handleSubmit} disabled={isLoading}>Register</button>
-      <button onClick={handleLogIn} disabled={isLoading}>Log in</button>
+      </div>
+
+      <div class="formGroup">
+      <label class="passLabel" >Password </label>
+      <input class="ProfileBox" value={password} onChange={e => setPassword(e.target.value)} type="password" />
+      </div>
+
+      <button class="ProfileButton profileLogin" onClick={handleLogIn} disabled={isLoading}>Log in</button>
+      <button class="ProfileButton profileRegister" onClick={handleSubmit} disabled={isLoading}>Register here</button>
+
       <div>
         {isLoading ? 'Loading ...' : null}
       </div>

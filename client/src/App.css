@@ -36,3 +36,163 @@
     transform: rotate(360deg);
   }
 }
+
+  .ProfileButton {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .Contain{
+        border: 2px solid rgba(255,255,255,0.1);
+        box-shadow: 0 0 40px rgba(8,7,16,0.6);
+        color:black;
+        background-color: #f2f2f2;
+        width: 300px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+  }
+
+     .formGroup {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .formGroup label {
+        flex: 0 0 100px;
+        margin-right: 10px;
+      }
+
+      .loginTitle{
+           text-align: center;
+      }
+
+      .profileContain{
+        text-align: center;
+      }
+      .profileContain {
+        position: relative;
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f2f2f2;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+
+      .profileTitle {
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+
+      .LoginButton{
+        display: inline-block;
+          padding: 10px 20px;
+          font-size: 18px;
+          color: #fff;
+          background-color: #3498db;
+          border: none;
+          border-radius: 4px;
+          text-align: center;
+          text-decoration: none;
+          transition: background-color 0.3s ease;
+          cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      .details {
+        margin-top: 20px;
+      }
+
+      .details summary {
+        cursor: pointer;
+      }
+
+      .errorMessage {
+        color: red;
+        margin-top: 10px;
+      }
+
+      .csc413{
+        background-color: #D3D3D3 ;
+      }
+
+      #root{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 10px;
+      }
+
+    .blockUser{
+       margin: 10px;
+    }
+
+    .endpointButton{
+      background-color: #3498db;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 16px;
+      width: 80px;
+      }
+
+      .logoutButton {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        color: black;
+        background-color: #3498db;
+        border: none;
+        border-radius: 4px;
+        text-align: center;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+        cursor: pointer;
+      }
+
+      .logoutButton:hover {
+        background-color: #2980b9;
+      }
+
+       .addTop {
+         margin-top: 20px;
+       }
+
+      .addUser, .blockUser {
+        float: left;
+      }
+      .conversationBox {
+        clear: left;
+      }
+
+      .logoutCorner {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        margin: 10px;
+      }
+
+
