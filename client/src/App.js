@@ -18,9 +18,26 @@ function App() {
   const [toId, setToId] = React.useState('');
   const [message, setMessage] = React.useState('');
 
+    async function SearchUsers() {
+    const httpSettings = {
+      method: 'GET',
+      headers: {
+        auth: cookies.get('auth'),
+      }
+    };
+    const result = await fetch('/getUsername', httpSettings);
+    const apiRes = await result.json();
+    console.log(apiRes);
+    if (apiRes.status) {
+      // worked
+      setUserName(apiRes.data); 
+    } else {
+      setErrorMessage(apiRes.message);
+    }
+  }
   // new state variable for list of convos
   const [conversations, setConversations] = React.useState([]); // default empty array
-
+   
   async function getConversations() {
     const httpSettings = {
       method: 'GET',
@@ -38,26 +55,6 @@ function App() {
       setErrorMessage(apiRes.message);
     }
   }
-
-  /*  // get list of users in the database 
-   async function getUsers() {
-    const httpSettings = {
-      method: 'GET',
-      headers: {
-        auth: cookies.get('auth'), // utility to retrive cookie from cookies
-      }
-    };
-    const result = await fetch('/getConversations', httpSettings);
-    const apiRes = await result.json();
-    console.log(apiRes);
-    if (apiRes.status) {
-      // worked
-      setConversations(apiRes.data); // java side should return list of all convos for this user
-    } else {
-      setErrorMessage(apiRes.message);
-    }
-  }
-  */
 
   async function handleSubmit() {
     setIsLoading(true);
@@ -292,7 +289,14 @@ function App() {
           <button onClick={handleUnregUser}>Confirm Unregister</button>
           {errorMessage && <div>{errorMessage}</div>}
         </div>
-        
+        SearchUser:
+        <div class="search-container">
+          <input type="search" placeholder="Search..">
+          <button type = "Submit" onSubmit={SearchUsers}> Search</button>
+          </input>
+    </div>
+       
+       
         <div>
         <button class="logoutButton" onClick={handleLogOut}>Log Out</button>
         </div>
